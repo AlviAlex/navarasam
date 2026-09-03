@@ -207,11 +207,24 @@
       function initSocket() {
         if (typeof io === 'undefined') return;
         try {
-          socket = io(window.location.origin);
+          socket = io({
+            transports: ['websocket', 'polling'],
+            upgrade: true,
+            autoConnect: true
+          });
 
           socket.on('connect', () => {
             if (currentRoomId) {
               joinRoom(currentRoomId);
+            } else {
+              fetch('/api/rooms', { method: 'POST', headers: { 'Content-Type': 'application/json' } })
+                .then(r => r.json())
+                .then(data => {
+                  if (data && data.room_id) {
+                    joinRoom(data.room_id);
+                  }
+                })
+                .catch(err => console.error('Room init error:', err));
             }
           });
 
@@ -250,8 +263,9 @@
             appendIncoming(data.emojis);
           });
 
-          socket.on('error', () => {
+          socket.on('error', (err) => {
             sendBtn.disabled = false;
+            showToast(err && err.message ? err.message : "Error sending message");
           });
         } catch (err) {
           console.warn('Socket error:', err);
@@ -261,7 +275,9 @@
       function joinRoom(roomId) {
         currentRoomId = roomId;
         if (!socket) initSocket();
-        if (socket) socket.emit('join_room', { room_id: roomId });
+        if (socket && socket.connected) {
+          socket.emit('join_room', { room_id: roomId });
+        }
         window.history.pushState({}, '', `/room/${roomId}`);
       }
 
@@ -276,11 +292,20 @@
           } catch (e) { }
         }
 
-        const networkIp = document.body.dataset.networkIp || "10.200.0.124";
-        const port = window.location.port || "5000";
-        const roomUrl = currentRoomId
-          ? `http://${networkIp}:${port}/room/${currentRoomId}`
-          : `http://${networkIp}:${port}`;
+        let roomUrl;
+        const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        if (isLocal) {
+          const networkIp = document.body.dataset.networkIp || window.location.hostname;
+          const port = window.location.port ? `:${window.location.port}` : '';
+          roomUrl = currentRoomId
+            ? `http://${networkIp}${port}/room/${currentRoomId}`
+            : `http://${networkIp}${port}`;
+        } else {
+          // Cloud production domain (e.g. https://navarasam.onrender.com)
+          roomUrl = currentRoomId
+            ? `${window.location.origin}/room/${currentRoomId}`
+            : window.location.origin;
+        }
 
         if (navigator.share) {
           try {

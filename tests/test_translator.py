@@ -179,6 +179,16 @@ def test_semantic_decoding_acceptance_cases(client):
     assert r5.status_code == 200
     assert "🎓" in r5.json["emojis"]
 
+    # 5. Greetings
+    r6 = client.post("/api/translate", json={"text": "hi"})
+    assert r6.status_code == 200
+    assert r6.json["emojis"] == "👋"
+
+    r7 = client.post("/api/translate", json={"text": "hello"})
+    assert r7.status_code == 200
+    assert r7.json["emojis"] == "👋"
+
+
 
 
 

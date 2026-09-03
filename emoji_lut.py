@@ -88,6 +88,9 @@ CURATED_EMOJIS: Dict[str, Dict[str, Any]] = {
     "🎉": {"name": "celebration", "keywords": ["congratulations", "congrats", "celebrate", "hurray", "yay", "hooray"], "emotions": ["joy"], "category": "activity"},
     "🔥": {"name": "fire", "keywords": ["fire", "flame", "burning", "hot", "blaze"], "emotions": [], "category": "nature"},
     "✨": {"name": "sparkles", "keywords": ["sparkles", "glitter", "sparkle", "magical", "shine"], "emotions": [], "category": "symbol"},
+    
+    # Gestures & Greetings
+    "👋": {"name": "waving hand", "keywords": ["hi", "hello", "hey", "wave", "waving", "greeting", "greetings", "howdy", "yo", "bye", "goodbye"], "emotions": ["friendly"], "category": "gestures"},
     "👍": {"name": "thumbs up", "keywords": ["thumbs up", "agree", "yes", "approved", "ok", "good job"], "emotions": ["approving"], "category": "gesture"},
     "👎": {"name": "thumbs down", "keywords": ["thumbs down", "disagree", "no", "disapproved", "bad"], "emotions": ["disapproving"], "category": "gesture"},
     "🙏": {"name": "gratitude", "keywords": ["thank you", "thanks", "grateful", "praying", "prayer", "please", "gratitude"], "emotions": ["grateful"], "category": "gesture"},
@@ -174,6 +177,13 @@ CURATED_EMOJIS: Dict[str, Dict[str, Any]] = {
 
 EXACT_PHRASES: Dict[str, Dict[str, Any]] = {
     "bring the beer in the bag": {"emojis": "🍺 📥 👜", "concepts": [{"name": "beer", "emoji": "🍺"}, {"name": "inside/in", "emoji": "📥"}, {"name": "bag", "emoji": "👜"}], "emotion": None, "explanation": "Semantic decoding: beer located inside the bag."},
+    "hi": {"emojis": "👋", "concepts": [{"name": "greeting", "emoji": "👋"}], "emotion": "friendly", "explanation": "Greeting mapped to waving hand."},
+    "hello": {"emojis": "👋", "concepts": [{"name": "greeting", "emoji": "👋"}], "emotion": "friendly", "explanation": "Greeting mapped to waving hand."},
+    "hey": {"emojis": "👋", "concepts": [{"name": "greeting", "emoji": "👋"}], "emotion": "friendly", "explanation": "Greeting mapped to waving hand."},
+    "hi!": {"emojis": "👋 ❗", "concepts": [{"name": "greeting", "emoji": "👋"}, {"name": "emphasis", "emoji": "❗"}], "emotion": "friendly", "explanation": "Emphatic greeting mapped to waving hand and exclamation."},
+    "hello!": {"emojis": "👋 ❗", "concepts": [{"name": "greeting", "emoji": "👋"}, {"name": "emphasis", "emoji": "❗"}], "emotion": "friendly", "explanation": "Emphatic greeting mapped to waving hand and exclamation."},
+    "bye": {"emojis": "👋", "concepts": [{"name": "farewell", "emoji": "👋"}], "emotion": None, "explanation": "Farewell mapped to waving hand."},
+    "goodbye": {"emojis": "👋", "concepts": [{"name": "farewell", "emoji": "👋"}], "emotion": None, "explanation": "Farewell mapped to waving hand."},
     "where are you": {"emojis": "🧑 ❓", "concepts": [{"name": "you", "emoji": "🧑"}, {"name": "question", "emoji": "❓"}], "emotion": None, "explanation": "Semantic inquiry of person location."},
     "i am going to college tomorrow": {"emojis": "🧑 🚶 🏫 📅", "concepts": [{"name": "person", "emoji": "🧑"}, {"name": "go/walk", "emoji": "🚶"}, {"name": "college", "emoji": "🏫"}, {"name": "tomorrow", "emoji": "📅"}], "emotion": None, "explanation": "Semantic decoding: person traveling to college tomorrow."},
     "i went to school": {"emojis": "🧑 🚶 🏫", "concepts": [{"name": "person", "emoji": "🧑"}, {"name": "went", "emoji": "🚶"}, {"name": "school", "emoji": "🏫"}], "emotion": None, "explanation": "Semantic decoding: person traveled to school location."},

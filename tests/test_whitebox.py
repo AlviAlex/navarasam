@@ -26,7 +26,6 @@ from app import create_app, socketio
 from config import Config
 from emoji_lut import LUTService
 from gemini_provider import GeminiProvider
-from ollama_provider import OllamaProvider
 from room_manager import RoomManager
 from translator import TranslationService
 
@@ -218,37 +217,7 @@ class TestGeminiProviderWhitebox:
 
 
 # ============================================================================
-# 5. WHITEBOX TESTS: ollama_provider.py
-# ============================================================================
-class TestOllamaProviderWhitebox:
-    @patch("ollama_provider.urlopen")
-    def test_successful_chat(self, mock_urlopen):
-        raw_json = json.dumps({
-            "message": {
-                "content": "{\"emojis\": \"☕ 🚫\", \"concepts\": [], \"emotion\": null, \"explanation\": \"coffee dislike\"}"
-            }
-        }).encode("utf-8")
-
-        mock_resp = MagicMock()
-        mock_resp.read.return_value = raw_json
-        mock_resp.__enter__.return_value = mock_resp
-        mock_urlopen.return_value = mock_resp
-
-        provider = OllamaProvider("http://localhost:11434", "qwen3:4b-instruct", 30)
-        result = provider.chat([{"role": "user", "content": "I don't like coffee"}], {})
-        assert result["emojis"] == "☕ 🚫"
-
-    @patch("ollama_provider.urlopen")
-    def test_ollama_unavailable(self, mock_urlopen):
-        mock_urlopen.side_effect = URLError("Connection refused")
-        provider = OllamaProvider("http://localhost:11434", "qwen3:4b-instruct", 30)
-        with pytest.raises(AIProviderError) as exc:
-            provider.chat([{"role": "user", "content": "hi"}], {})
-        assert "Ollama is not available" in str(exc.value)
-
-
-# ============================================================================
-# 6. WHITEBOX TESTS: translator.py
+# 5. WHITEBOX TESTS: translator.py
 # ============================================================================
 class TestTranslatorWhitebox:
     class DummyProvider(AIProvider):

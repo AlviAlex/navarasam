@@ -96,9 +96,9 @@ def test_invalid_model_response_fallback(client, provider):
     assert len(response.json["emojis"]) > 0
 
 
-def test_ollama_unavailable_falls_back():
+def test_provider_error_falls_back():
     client = create_app(
-        FakeProvider(error=AIProviderError("Ollama is not available. Start Ollama and try again."))
+        FakeProvider(error=AIProviderError("Gemini API is temporarily busy."))
     ).test_client()
     response = client.post("/api/translate", json={"text": "quantum entanglement observation test"})
     assert response.status_code == 200

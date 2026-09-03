@@ -6,7 +6,6 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 from ai_provider import AIProviderError
 from config import Config
 from gemini_provider import GeminiProvider
-from ollama_provider import OllamaProvider
 from room_manager import RoomManager
 from translator import TranslationService
 
@@ -18,21 +17,11 @@ def create_app(provider=None) -> Flask:
     app = Flask(__name__)
     app.config.from_object(Config)
 
-    if provider:
-        active_provider = provider
-    elif app.config.get("GEMINI_API_KEY"):
-        active_provider = GeminiProvider(
-            app.config["GEMINI_API_KEY"],
-            app.config["GEMINI_MODEL"],
-            app.config["GEMINI_TIMEOUT_SECONDS"],
-        )
-    else:
-        # Automatically use local Ollama cognitive model
-        active_provider = OllamaProvider(
-            app.config["OLLAMA_BASE_URL"],
-            app.config.get("OLLAMA_MODEL", "qwen3:8b"),
-            app.config["OLLAMA_TIMEOUT_SECONDS"],
-        )
+    active_provider = provider or GeminiProvider(
+        app.config["GEMINI_API_KEY"],
+        app.config["GEMINI_MODEL"],
+        app.config["GEMINI_TIMEOUT_SECONDS"],
+    )
 
     service = TranslationService(active_provider, app.config["MAX_INPUT_LENGTH"], app.config["MAX_CONCEPTS"])
     app.translation_service = service
@@ -51,32 +40,29 @@ def create_app(provider=None) -> Flask:
 
     @app.get("/")
     def index():
-        provider_badge = "Gemini Flash" if app.config.get("AI_PROVIDER") != "ollama" else "Local Ollama"
         return render_template(
             "landing.html",
             max_length=app.config["MAX_INPUT_LENGTH"],
-            provider_badge=provider_badge,
+            provider_badge="Gemini Flash",
             network_ip=_get_lan_ip(),
         )
 
     @app.get("/app")
     def app_page():
-        provider_badge = "Gemini Flash" if app.config.get("AI_PROVIDER") != "ollama" else "Local Ollama"
         return render_template(
             "index.html",
             max_length=app.config["MAX_INPUT_LENGTH"],
-            provider_badge=provider_badge,
+            provider_badge="Gemini Flash",
             initial_room_id="",
             network_ip=_get_lan_ip(),
         )
 
     @app.get("/room/<room_id>")
     def room_page(room_id):
-        provider_badge = "Gemini Flash" if app.config.get("AI_PROVIDER") != "ollama" else "Local Ollama"
         return render_template(
             "index.html",
             max_length=app.config["MAX_INPUT_LENGTH"],
-            provider_badge=provider_badge,
+            provider_badge="Gemini Flash",
             initial_room_id=room_id.strip().lower(),
             network_ip=_get_lan_ip(),
         )

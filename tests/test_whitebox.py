@@ -308,9 +308,9 @@ class TestAppWhitebox:
         return app.test_client()
 
     def test_routes(self, client):
-        # GET /
         res = client.get("/")
-        assert "Navarasa" in res.text
+        assert res.status_code == 200
+        assert "Navarasam" in res.text
 
         # GET /room/testroom
         res_room = client.get("/room/testroom")

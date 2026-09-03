@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Navarasa</title>
+  <title>Navarasam</title>
   <link
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     rel="stylesheet">
@@ -95,7 +95,7 @@
 
           <!-- Center Title -->
           <div class="flex flex-col items-center justify-center">
-            <span class="text-[13px] font-semibold text-[#8E8E93]" id="header-status">Navarasa</span>
+            <span class="text-[13px] font-semibold text-[#8E8E93]" id="header-status">Navarasam</span>
           </div>
 
           <!-- Right Native Share Button -->
@@ -133,13 +133,13 @@
               <!-- Apps / Attachment '+' Button -->
               <button
                 class="w-7 h-7 rounded-full flex items-center justify-center text-[#8E8E93] hover:text-[#1D1D1F] hover:bg-black/5 transition-all shrink-0 mr-1"
-                id="plus-room-btn" title="Navarasa Apps" type="button">
+                id="plus-room-btn" title="Navarasam Apps" type="button">
                 <span class="material-symbols-outlined text-[19px]">add</span>
               </button>
               <!-- Central Text Input -->
               <input autocomplete="off"
                 class="flex-1 bg-transparent border-none outline-none text-[14px] text-[#1D1D1F] placeholder-[#8E8E93] px-1 py-0.5 focus:ring-0"
-                id="message-input" placeholder="Navarasa (type in English)..." type="text">
+                id="message-input" placeholder="Navarasam (type in English)..." type="text">
               <!-- Audio waveform memo icon -->
               <button
                 class="w-7 h-7 rounded-full flex items-center justify-center text-[#8E8E93] hover:text-[#1D1D1F] transition-colors shrink-0 mr-0.5"
@@ -231,7 +231,7 @@
 
           socket.on('room_joined', (data) => {
             currentRoomId = data.room_id;
-            headerStatus.textContent = `Navarasa • ${data.participant_count}/2 Online`;
+            headerStatus.textContent = `Navarasam • ${data.participant_count}/2 Online`;
 
             if (data.messages && data.messages.length > 0) {
               data.messages.forEach(msg => {
@@ -245,12 +245,12 @@
           });
 
           socket.on('peer_joined', (data) => {
-            headerStatus.textContent = `Navarasa • ${data.participant_count}/2 Online`;
+            headerStatus.textContent = `Navarasam • ${data.participant_count}/2 Online`;
             showToast("Friend joined the chat!");
           });
 
           socket.on('peer_left', (data) => {
-            headerStatus.textContent = `Navarasa • ${data.participant_count}/2 Online`;
+            headerStatus.textContent = `Navarasam • ${data.participant_count}/2 Online`;
           });
 
           socket.on('message_sent', (data) => {
@@ -299,7 +299,7 @@
         if (navigator.share) {
           try {
             await navigator.share({
-              title: 'Navarasa Emojify',
+              title: 'Navarasam Emojify',
               text: 'Chat with me in emojis!',
               url: roomUrl
             });

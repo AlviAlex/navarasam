@@ -109,7 +109,10 @@ def test_page_has_copy_control_and_font(client):
     response = client.get("/")
     assert response.status_code == 200
     assert "ios_emoji.ttf" in response.text or "IOSEmoji" in response.text
-    assert 'id="message-input"' in response.text or 'id="composer-form"' in response.text
+
+    response_app = client.get("/app")
+    assert response_app.status_code == 200
+    assert 'id="message-input"' in response_app.text or 'id="composer-form"' in response_app.text
 
 
 def test_emoji_pack_supports_common_emojis():

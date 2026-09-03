@@ -53,6 +53,16 @@ def create_app(provider=None) -> Flask:
     def index():
         provider_badge = "Gemini Flash" if app.config.get("AI_PROVIDER") != "ollama" else "Local Ollama"
         return render_template(
+            "landing.html",
+            max_length=app.config["MAX_INPUT_LENGTH"],
+            provider_badge=provider_badge,
+            network_ip=_get_lan_ip(),
+        )
+
+    @app.get("/app")
+    def app_page():
+        provider_badge = "Gemini Flash" if app.config.get("AI_PROVIDER") != "ollama" else "Local Ollama"
+        return render_template(
             "index.html",
             max_length=app.config["MAX_INPUT_LENGTH"],
             provider_badge=provider_badge,

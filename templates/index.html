@@ -90,8 +90,13 @@
         <header
           class="px-5 border-b border-black/[0.08] bg-[#FBFBFB]/90 backdrop-blur-md flex items-center select-none shrink-0 z-20 relative justify-between h-[52px]">
 
-          <!-- Left Placeholder to balance center alignment -->
-          <div class="w-20"></div>
+          <!-- Left Back to SaaS Home Link -->
+          <div class="w-24 flex items-center">
+            <a href="/" class="text-[12px] font-medium text-[#8E8E93] hover:text-[#007AFF] transition-colors flex items-center gap-0.5 cursor-pointer" title="Return to Navarasam SaaS Home">
+              <span class="material-symbols-outlined text-[14px]">arrow_back_ios</span>
+              <span>Home</span>
+            </a>
+          </div>
 
           <!-- Center Title -->
           <div class="flex flex-col items-center justify-center">
@@ -99,7 +104,7 @@
           </div>
 
           <!-- Right Native Share Button -->
-          <div class="w-20 flex justify-end">
+          <div class="w-24 flex justify-end">
             <button
               class="px-3 py-1 text-[12px] font-semibold text-[#007AFF] bg-[#007AFF]/10 hover:bg-[#007AFF]/20 active:scale-95 rounded-full transition-all flex items-center gap-1 shadow-xs cursor-pointer"
               id="btn-share-invite" title="Share this chat with a friend" type="button">

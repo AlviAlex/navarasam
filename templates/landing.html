@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Navarasam — Cognitive Semantic Emoji Translation SaaS</title>
+  <meta name="description"
+    content="Navarasam is the cognitive semantic emoji translation engine that turns complex human thought, intent, and spatial relations into native Apple iOS emoji sequences in real time.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <style>
+    @font-face {
+      font-family: 'IOSEmoji';
+      src: url("{{ url_for('static', filename='ios_emoji.ttf') }}") format('truetype');
+      font-display: swap;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #090A0F;
+      color: #F3F4F6;
+      overflow-x: hidden;
+    }
+
+    .font-emoji {
+      font-family: 'IOSEmoji', -apple-system, BlinkMacSystemFont, 'Apple Color Emoji', 'Segoe UI Emoji', sans-serif;
+    }
+
+    /* Glassmorphism utilities */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .glass-card-hover:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(0, 122, 255, 0.4);
+      transform: translateY(-4px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-glow {
+      background: radial-gradient(circle at 50% 30%, rgba(0, 122, 255, 0.18) 0%, rgba(94, 92, 230, 0.1) 40%, transparent 70%);
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #FFFFFF 20%, #A1A1AA 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .accent-gradient {
+      background: linear-gradient(135deg, #007AFF 0%, #5E5CE6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 9999px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #090A0F;
+    }
+  </style>
+</head>
+
+<body class="selection:bg-[#007AFF]/30 selection:text-white relative">
+
+  <!-- Background Ambient Glow -->
+  <div class="fixed inset-0 pointer-events-none hero-glow z-0"></div>
+
+  <!-- ================= TOP NAVIGATION ================= -->
+  <nav class="fixed top-0 inset-x-0 z-50 bg-[#090A0F]/80 backdrop-blur-xl border-b border-white/[0.08]">
+    <div class="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between">
+      <!-- Brand Logo -->
+      <a href="/" class="flex items-center gap-3 group">
+        <div
+          class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#007AFF] to-[#5E5CE6] flex items-center justify-center shadow-lg shadow-[#007AFF]/25 group-hover:scale-105 transition-transform">
+          <span class="font-emoji text-xl text-white">✨</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-[17px] font-extrabold tracking-tight text-white flex items-center gap-1.5">
+            Navarasam <span
+              class="text-[10px] uppercase font-bold px-2 py-0.5 rounded-full bg-[#007AFF]/15 text-[#007AFF] border border-[#007AFF]/30">SaaS</span>
+          </span>
+          <span class="text-[11px] text-zinc-400 font-medium">Cognitive Semantic Engine</span>
+        </div>
+      </a>
+
+      <!-- Navigation Links -->
+      <div class="hidden md:flex items-center gap-8 text-[14px] font-semibold text-zinc-300">
+        <a href="#playground" class="hover:text-white transition-colors">Live Sandbox</a>
+        <a href="#features" class="hover:text-white transition-colors">Features</a>
+        <a href="#architecture" class="hover:text-white transition-colors">How It Works</a>
+        <a href="#api" class="hover:text-white transition-colors">Developer API</a>
+        <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
+      </div>
+
+      <!-- Action CTAs -->
+      <div class="flex items-center gap-3">
+        <button id="nav-create-room-btn"
+          class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-[13px] font-semibold bg-white/5 hover:bg-white/10 text-white border border-white/10 transition-all cursor-pointer">
+          <span class="material-symbols-outlined text-[16px]">add_circle</span>
+          <span>New Room</span>
+        </button>
+        <a href="/app"
+          class="inline-flex items-center gap-2 px-5 py-2 rounded-xl text-[13px] font-bold bg-[#007AFF] hover:bg-[#0069D9] text-white shadow-lg shadow-[#007AFF]/30 active:scale-95 transition-all">
+          <span>Launch App</span>
+          <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content Container -->
+  <main class="relative z-10 pt-32 pb-24">
+
+    <!-- ================= HERO SECTION ================= -->
+    <section class="max-w-5xl mx-auto px-6 text-center pt-8 pb-16">
+      <!-- Announcement Pill -->
+      <div
+        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.1] text-xs font-semibold text-zinc-300 mb-8 backdrop-blur-md shadow-inner">
+        <span class="w-2 h-2 rounded-full bg-[#34C759] animate-pulse"></span>
+        <span>Navarasam 2.0 Released • Real-Time Spatial Relation Decoder</span>
+      </div>
+
+      <!-- Hero Headline -->
+      <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6">
+        Talk in Thoughts.<br>
+        <span class="accent-gradient">Chat in Pure Emojis.</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="max-w-2xl mx-auto text-lg sm:text-xl text-zinc-400 font-normal leading-relaxed mb-10">
+        The cognitive semantic translation engine that decodes human syntax, spatial relations (<span
+          class="text-zinc-200">inside</span>, <span class="text-zinc-200">with</span>, <span
+          class="text-zinc-200">under</span>), and event chronology into native Apple iOS emojis in real time.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+        <button id="hero-instant-chat-btn"
+          class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-[#007AFF] to-[#5E5CE6] hover:from-[#0069D9] hover:to-[#4F4DD0] text-white font-bold text-[15px] shadow-xl shadow-[#007AFF]/25 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer">
+          <span class="material-symbols-outlined text-[19px]">chat</span>
+          <span>Start Instant 2-Person Chat</span>
+        </button>
+        <a href="#playground"
+          class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-zinc-200 font-semibold text-[15px] border border-white/[0.12] transition-all flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-[19px]">play_circle</span>
+          <span>Try Live Sandbox</span>
+        </a>
+      </div>
+
+      <!-- Quick Metrics Stats Banner -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto text-left">
+        <div class="glass-card p-5 rounded-2xl">
+          <div class="text-2xl sm:text-3xl font-extrabold text-white mb-1"><span class="text-[#007AFF]">&lt;</span>
+            0.05ms</div>
+          <div class="text-xs font-medium text-zinc-400">Lookup Table Latency</div>
+        </div>
+        <div class="glass-card p-5 rounded-2xl">
+          <div class="text-2xl sm:text-3xl font-extrabold text-white mb-1">1,485</div>
+          <div class="text-xs font-medium text-zinc-400">Apple iOS Font Glyphs</div>
+        </div>
+        <div class="glass-card p-5 rounded-2xl">
+          <div class="text-2xl sm:text-3xl font-extrabold text-white mb-1">100%</div>
+          <div class="text-xs font-medium text-zinc-400">Zero Decorative Vibe Noise</div>
+        </div>
+        <div class="glass-card p-5 rounded-2xl">
+          <div class="text-2xl sm:text-3xl font-extrabold text-white mb-1">P2P Synced</div>
+          <div class="text-xs font-medium text-zinc-400">WebSocket 2-Person Rooms</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= INTERACTIVE LIVE PLAYGROUND ================= -->
+    <section id="playground" class="max-w-5xl mx-auto px-6 py-16 scroll-mt-24">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-3">Live Semantic Decoder Sandbox</h2>
+        <p class="text-zinc-400 text-sm sm:text-base max-w-xl mx-auto">
+          Type any natural language sentence below or click a preset to see the cognitive model preserve relations and
+          actions.
+        </p>
+      </div>
+
+      <!-- Interactive Playground Box -->
+      <div class="glass-card rounded-3xl p-6 sm:p-8 border border-white/[0.12] shadow-2xl relative overflow-hidden">
+        
+        <!-- Preset Test Pills -->
+        <div class="flex flex-wrap gap-2 mb-6">
+          <span class="text-xs font-semibold text-zinc-400 self-center mr-1">Presets:</span>
+          <button data-query="bring the beer in the bag"
+            class="preset-pill px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-xs font-medium text-zinc-300 border border-white/10 transition-all cursor-pointer">
+            🍺 "bring the beer in the bag"
+          </button>
+          <button data-query="where are you?"
+            class="preset-pill px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-xs font-medium text-zinc-300 border border-white/10 transition-all cursor-pointer">
+            🧑 ❓ "where are you?"
+          </button>
+          <button data-query="I don't like coffee"
+            class="preset-pill px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-xs font-medium text-zinc-300 border border-white/10 transition-all cursor-pointer">
+            ☕ 🚫 "I don't like coffee"
+          </button>
+          <button data-query="I am going to college tomorrow"
+            class="preset-pill px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-xs font-medium text-zinc-300 border border-white/10 transition-all cursor-pointer">
+            🏫 📅 "I am going to college tomorrow"
+          </button>
+          <button data-query="meeting at 9 tonight"
+            class="preset-pill px-3.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-xs font-medium text-zinc-300 border border-white/10 transition-all cursor-pointer">
+            9️⃣ 🌙 "meeting at 9 tonight"
+          </button>
+        </div>
+
+        <!-- Input Box -->
+        <div class="relative mb-6">
+          <input id="sandbox-input" type="text" value="bring the beer in the bag"
+            placeholder="Type any thought in English..."
+            class="w-full bg-[#12141C] text-white text-base sm:text-lg px-5 py-4 rounded-2xl border border-white/15 focus:border-[#007AFF] focus:ring-2 focus:ring-[#007AFF]/30 outline-none transition-all placeholder:text-zinc-500 font-medium pr-32">
+          <button id="sandbox-translate-btn"
+            class="absolute right-2.5 top-2.5 bottom-2.5 px-6 rounded-xl bg-[#007AFF] hover:bg-[#0069D9] text-white text-sm font-bold shadow-md shadow-[#007AFF]/25 transition-all flex items-center gap-1.5 cursor-pointer">
+            <span>Decode</span>
+            <span class="material-symbols-outlined text-[17px]">bolt</span>
+          </button>
+        </div>
+
+        <!-- Live Output Display Card -->
+        <div class="bg-[#12141C]/80 rounded-2xl p-6 border border-white/10">
+          <div class="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+            <span class="text-xs font-semibold uppercase tracking-wider text-zinc-400 flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-[#007AFF]"></span>
+              Decoded Apple iOS Emoji Sequence
+            </span>
+            <span id="sandbox-badge"
+              class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-[#34C759]/15 text-[#34C759] border border-[#34C759]/30">
+              Cognitive Parser Active
+            </span>
+          </div>
+
+          <!-- The Large Output Emoji Stream -->
+          <div class="flex items-center gap-4 py-2 min-h-[60px]">
+            <div id="sandbox-emojis"
+              class="font-emoji text-4xl sm:text-5xl tracking-wide text-white select-all drop-shadow-md">
+              🍺 📥 👜
+            </div>
+          </div>
+
+          <!-- Concept Deconstruction Badges -->
+          <div class="mt-4 pt-4 border-t border-white/10">
+            <span class="text-xs font-medium text-zinc-400 block mb-2">Semantic Concept & Relation Graph:</span>
+            <div id="sandbox-concepts" class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-zinc-300 font-medium">
+                <span class="font-emoji mr-1">🍺</span> Entity: beer
+              </span>
+              <span
+                class="px-3 py-1 rounded-lg bg-[#007AFF]/15 border border-[#007AFF]/30 text-xs text-[#007AFF] font-medium">
+                <span class="font-emoji mr-1">📥</span> Relation: inside / in
+              </span>
+              <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-zinc-300 font-medium">
+                <span class="font-emoji mr-1">👜</span> Entity: bag
+              </span>
+            </div>
+            <p id="sandbox-explanation" class="text-xs text-zinc-400 mt-3 italic">
+              "Decoded semantic relation: beer located inside the bag."
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= FEATURES GRID ================= -->
+    <section id="features" class="max-w-7xl mx-auto px-6 py-20 scroll-mt-24">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span
+          class="text-xs uppercase font-bold tracking-widest px-3 py-1 rounded-full bg-[#007AFF]/10 text-[#007AFF] border border-[#007AFF]/20 mb-4 inline-block">Enterprise-Grade
+          Intelligence</span>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight mb-4">
+          Why Navarasam Outperforms Traditional Word Mappers
+        </h2>
+        <p class="text-zinc-400 text-base sm:text-lg">
+          Unlike dictionary lookup bots, Navarasam's neural pipeline decodes relationships, spatial context, negation,
+          and chronological event sequences.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Feature 1 -->
+        <div class="glass-card glass-card-hover p-8 rounded-3xl">
+          <div
+            class="w-12 h-12 rounded-2xl bg-[#007AFF]/15 border border-[#007AFF]/30 flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-[26px] text-[#007AFF]">account_tree</span>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Spatial & Logical Relations</h3>
+          <p class="text-sm text-zinc-400 leading-relaxed mb-4">
+            Preserves relational prepositions like <span class="text-zinc-200">"in/inside" (📥)</span>, <span
+              class="text-zinc-200">"with" (🤝)</span>, <span class="text-zinc-200">"under" (⬇️)</span>, and <span
+              class="text-zinc-200">"to/direction" (➡️)</span>.
+          </p>
+          <div class="text-xs font-semibold text-[#007AFF] bg-[#007AFF]/10 px-3 py-1.5 rounded-lg inline-block">
+            🍺 in 👜 → 🍺 📥 👜
+          </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="glass-card glass-card-hover p-8 rounded-3xl">
+          <div
+            class="w-12 h-12 rounded-2xl bg-[#5E5CE6]/15 border border-[#5E5CE6]/30 flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-[26px] text-[#5E5CE6]">schedule</span>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Event Chronology & Grammar</h3>
+          <p class="text-sm text-zinc-400 leading-relaxed mb-4">
+            Orders emojis following logical SVO and temporal flow: <span class="text-zinc-200">[Subject] → [Action] →
+              [Object] → [Time] → [Mood ❓/❗]</span>.
+          </p>
+          <div class="text-xs font-semibold text-[#5E5CE6] bg-[#5E5CE6]/10 px-3 py-1.5 rounded-lg inline-block">
+            I go to college tomorrow → 🧑 🚶 🏫 📅
+          </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="glass-card glass-card-hover p-8 rounded-3xl">
+          <div
+            class="w-12 h-12 rounded-2xl bg-[#FF9500]/15 border border-[#FF9500]/30 flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-[26px] text-[#FF9500]">do_not_disturb_on</span>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Strict Negation Logic</h3>
+          <p class="text-sm text-zinc-400 leading-relaxed mb-4">
+            Accurately tracks negative constraints ("don't", "no", "never", "without") and places <span
+              class="text-zinc-200">🚫</span> directly after the negated entity.
+          </p>
+          <div class="text-xs font-semibold text-[#FF9500] bg-[#FF9500]/10 px-3 py-1.5 rounded-lg inline-block">
+            I don't like coffee → ☕ 🚫
+          </div>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="glass-card glass-card-hover p-8 rounded-3xl">
+          <div
+            class="w-12 h-12 rounded-2xl bg-[#34C759]/15 border border-[#34C759]/30 flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-[26px] text-[#34C759]">font_download</span>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Native Apple iOS Font Pack</h3>
+          <p class="text-sm text-zinc-400 leading-relaxed mb-4">
+            Embedded <code class="text-zinc-200 text-xs bg-white/10 px-1 py-0.5 rounded">ios_emoji.ttf</code> (1,485
+            validated glyphs) guarantees pixel-perfect Apple typography across any OS, browser, or Android.
+          </p>
+        </div>
+
+        <!-- Feature 5 -->
+        <div class="glass-card glass-card-hover p-8 rounded-3xl">
+          <div
+            class="w-12 h-12 rounded-2xl bg-[#FF2D55]/15 border border-[#FF2D55]/30 flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-[26px] text-[#FF2D55]">share</span>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Instant P2P Room Sharing</h3>
+          <p class="text-sm text-zinc-400 leading-relaxed mb-4">
+            1-Click share link generates direct LAN/Wi-Fi connection URLs (<code
+              class="text-zinc-200 text-xs bg-white/10 px-1 py-0.5 rounded">http://10.200.0.124:5000/room/...</code>) for
+            cross-device synchronization.
+          </p>
+        </div>
+
+        <!-- Feature 6 -->
+        <div class="glass-card glass-card-hover p-8 rounded-3xl">
+          <div
+            class="w-12 h-12 rounded-2xl bg-[#AF52DE]/15 border border-[#AF52DE]/30 flex items-center justify-center mb-6">
+            <span class="material-symbols-outlined text-[26px] text-[#AF52DE]">filter_alt_off</span>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Zero Decorative Noise</h3>
+          <p class="text-sm text-zinc-400 leading-relaxed mb-4">
+            Strictly eliminates random filler emojis (<span class="text-zinc-200">✨, 🔥, 💀, 🚀, 😎</span>) unless
+            explicitly stated, guaranteeing hyper-rational communication.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= HOW IT WORKS (ARCHITECTURE) ================= -->
+    <section id="architecture" class="max-w-5xl mx-auto px-6 py-20 scroll-mt-24">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-white mb-4">How the Engine Works</h2>
+        <p class="text-zinc-400 max-w-xl mx-auto">Three-stage cognitive interpretation pipeline from English speech to
+          Apple glyphs.</p>
+      </div>
+
+      <div class="space-y-6">
+        
+        <!-- Step 1 -->
+        <div class="glass-card p-6 sm:p-8 rounded-3xl flex flex-col md:flex-row items-start md:items-center gap-6">
+          <div
+            class="w-14 h-14 rounded-2xl bg-[#007AFF] text-white flex items-center justify-center font-extrabold text-xl shrink-0 shadow-lg shadow-[#007AFF]/30">
+            01
+          </div>
+          <div class="flex-1">
+            <h3 class="text-lg font-bold text-white mb-1">Syntactic Decomposition</h3>
+            <p class="text-sm text-zinc-400">
+              The user's sentence is validated and analyzed as a whole thought, identifying semantic entities, verbal
+              actions, spatial relationships, and temporal markers.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="glass-card p-6 sm:p-8 rounded-3xl flex flex-col md:flex-row items-start md:items-center gap-6">
+          <div
+            class="w-14 h-14 rounded-2xl bg-[#5E5CE6] text-white flex items-center justify-center font-extrabold text-xl shrink-0 shadow-lg shadow-[#5E5CE6]/30">
+            02
+          </div>
+          <div class="flex-1">
+            <h3 class="text-lg font-bold text-white mb-1">Multi-Tier Semantic Matching (LUT + Cloud/Ollama LLM)</h3>
+            <p class="text-sm text-zinc-400">
+              Exact idioms hit the O(1) Look-Up Table (<0.05ms). Complex multi-clause sentences invoke the Semantic
+                Sequence Planner to decode nuances like school (🏫) vs graduation (🎓).
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="glass-card p-6 sm:p-8 rounded-3xl flex flex-col md:flex-row items-start md:items-center gap-6">
+          <div
+            class="w-14 h-14 rounded-2xl bg-[#34C759] text-white flex items-center justify-center font-extrabold text-xl shrink-0 shadow-lg shadow-[#34C759]/30">
+            03
+          </div>
+          <div class="flex-1">
+            <h3 class="text-lg font-bold text-white mb-1">Font Pack Validation & Real-Time WebSocket Delivery</h3>
+            <p class="text-sm text-zinc-400">
+              Codepoints are validated against the 1,485 supported Apple iOS glyphs and broadcast over Socket.IO to room
+              participants instantly.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= DEVELOPER API SECTION ================= -->
+    <section id="api" class="max-w-5xl mx-auto px-6 py-20 scroll-mt-24">
+      <div class="text-center mb-12">
+        <span
+          class="text-xs uppercase font-bold tracking-widest px-3 py-1 rounded-full bg-[#34C759]/10 text-[#34C759] border border-[#34C759]/20 mb-4 inline-block">Developer
+          First</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-3">Integrate Navarasam in 3 Lines of Code</h2>
+        <p class="text-zinc-400 max-w-lg mx-auto text-sm sm:text-base">
+          REST endpoints and WebSocket events built for high-throughput microservices.
+        </p>
+      </div>
+
+      <!-- Code Snippet Box with Tabs -->
+      <div class="glass-card rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+        <!-- Tabs Header -->
+        <div class="bg-[#12141C] px-6 py-3 border-b border-white/10 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-3 h-3 rounded-full bg-[#FF5F56]"></span>
+            <span class="w-3 h-3 rounded-full bg-[#FFBD2E]"></span>
+            <span class="w-3 h-3 rounded-full bg-[#27C93F]"></span>
+            <span class="text-xs font-mono text-zinc-400 ml-2">POST /api/translate</span>
+          </div>
+          <div class="flex items-center gap-2 text-xs font-mono">
+            <button class="api-tab px-3 py-1 rounded-lg bg-white/10 text-white font-semibold"
+              data-lang="curl">cURL</button>
+            <button class="api-tab px-3 py-1 rounded-lg text-zinc-400 hover:text-white"
+              data-lang="python">Python</button>
+            <button class="api-tab px-3 py-1 rounded-lg text-zinc-400 hover:text-white"
+              data-lang="javascript">JavaScript</button>
+          </div>
+        </div>
+
+        <!-- Code Content -->
+        <div class="p-6 bg-[#0B0C12] font-mono text-xs sm:text-sm text-zinc-300 overflow-x-auto">
+          <pre id="api-code-block"><code>curl -X POST http://127.0.0.1:5000/api/translate \
+  -H "Content-Type: application/json" \
+  -d '{"text": "bring the beer in the bag"}'
+
+# Response (200 OK):
+{
+  "emojis": "🍺 📥 👜",
+  "concepts": [
+    {"name": "beer", "emoji": "🍺", "role": "entity"},
+    {"name": "inside/in", "emoji": "📥", "role": "relation"},
+    {"name": "bag", "emoji": "👜", "role": "entity"}
+  ],
+  "explanation": "Semantic relation: beer located inside the bag."
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PRICING MATRIX ================= -->
+    <section id="pricing" class="max-w-6xl mx-auto px-6 py-20 scroll-mt-24">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span
+          class="text-xs uppercase font-bold tracking-widest px-3 py-1 rounded-full bg-[#AF52DE]/10 text-[#AF52DE] border border-[#AF52DE]/20 mb-4 inline-block">Flexible
+          Plans</span>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-white mb-3">Transparent SaaS Pricing</h2>
+        <p class="text-zinc-400 text-sm sm:text-base">Start completely free with zero credit card required.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+        
+        <!-- Hobbyist (Free) -->
+        <div class="glass-card p-8 rounded-3xl flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-zinc-400">Hobbyist</span>
+            <div class="text-4xl font-extrabold text-white mt-2 mb-4">$0 <span
+                class="text-sm font-normal text-zinc-400">/ forever</span></div>
+            <p class="text-sm text-zinc-400 mb-6">Perfect for 2-person emoji chatting and local development testing.
+            </p>
+            <ul class="space-y-3 text-sm text-zinc-300 mb-8">
+              <li class="flex items-center gap-2"><span
+                  class="material-symbols-outlined text-[18px] text-[#34C759]">check_circle</span> Unlimited P2P Chat
+                Rooms</li>
+              <li class="flex items-center gap-2"><span
+                  class="material-symbols-outlined text-[18px] text-[#34C759]">check_circle</span> 1,485 Apple iOS Font
+                Glyphs</li>
+              <li class="flex items-center gap-2"><span
+                  class="material-symbols-outlined text-[18px] text-[#34C759]">check_circle</span> Sub-0.05ms LUT Engine
+              </li>
+              <li class="flex items-center gap-2"><span
+                  class="material-symbols-outlined text-[18px] text-[#34C759]">check_circle</span> 1-Click Wi-Fi Link
+                Sharing</li>
+            </ul>
+          </div>
+          <a href="/app"
+            class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-center text-sm border border-white/10 transition-all">
+            Get Started Free
+          </a>
+        </div>
+
+        <!-- Pro Tier (Popular) -->
+        <div
+          class="glass-card p-8 rounded-3xl flex flex-col justify-between relative border-2 border-[#007AFF] shadow-2xl shadow-[#007AFF]/20 bg-[#121526]/50">
+          <div
+            class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-0.5 rounded-full bg-[#007AFF] text-white text-[11px] font-extrabold uppercase tracking-wider shadow-md">
+            Most Popular
+          </div>
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-[#007AFF]">Pro Developer</span>
+            <div class="text-4xl font-extrabold text-white mt-2 mb-4">$9 <span
+                class="text-sm font-normal text-zinc-400">/ month</span></div>
+            <p class="text-sm text-zinc-400 mb-6">For high-traffic applications, Discord bots, and messaging apps.</p>
+            <ul class="space-y-3 text-sm text-zinc-300 mb-8">
+              <li class="flex items-center gap-2"><span
+                  class="material-symbols-outlined text-[18px] text-[#007AFF]">check_circle</span> Everything in Free
+              </li>
+              <li class="flex items-center gap-2"><span
+                  class="material-symbols-outlined text-[18px] text-[#007AFF]">check_circle</span> Priority Gemini 2.5
+                Flash Queue</li>
+              <li class="flex items-center gap-2"><span
+                  class="material-symbols-outlined text-[18px] text-[#007AFF]">check_circle</span> Custom Slang & Team
+                Dictionaries</li>
+              <li class="flex items-center gap-2"><span
+                  class="material-symbols-outlined text-[18px] text-[#007AFF]">check_circle</span> 50,000 API
+                Calls/month</li>
+              <li class="flex items-center gap-2"><span
+                  class="material-symbols-outlined text-[18px] text-[#007AFF]">check_circle</span> WebSocket Webhooks
+              </li>
+            </ul>
+          </div>
+          <a href="/app"
+            class="w-full py-3.5 rounded-xl bg-[#007AFF] hover:bg-[#0069D9] text-white font-bold text-center text-sm shadow-lg shadow-[#007AFF]/30 transition-all">
+            Upgrade to Pro
+          </a>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="glass-card p-8 rounded-3xl flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-zinc-400">Enterprise</span>
+            <div class="text-4xl font-extrabold text-white mt-2 mb-4">Custom</div>
+            <p class="text-sm text-zinc-400 mb-6">Dedicated on-premises infrastructure for enterprise messaging suites.
+            </p>
+            <ul class="space-y-3 text-sm text-zinc-300 mb-8">
+              <li class="flex items-center gap-2"><span
+                  class="material-symbols-outlined text-[18px] text-[#5E5CE6]">check_circle</span> Self-Hosted Ollama
+                Cluster</li>
+              <li class="flex items-center gap-2"><span
+                  class="material-symbols-outlined text-[18px] text-[#5E5CE6]">check_circle</span> Dedicated 99.99% SLA
+              </li>
+              <li class="flex items-center gap-2"><span
+                  class="material-symbols-outlined text-[18px] text-[#5E5CE6]">check_circle</span> Custom Font TTF
+                Licensing</li>
+              <li class="flex items-center gap-2"><span
+                  class="material-symbols-outlined text-[18px] text-[#5E5CE6]">check_circle</span> 24/7 Dedicated Support
+              </li>
+            </ul>
+          </div>
+          <a href="mailto:support@navarasam.ai"
+            class="w-full py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-bold text-center text-sm border border-white/10 transition-all">
+            Contact Enterprise Sales
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= FAQ SECTION ================= -->
+    <section class="max-w-4xl mx-auto px-6 py-20">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-extrabold text-white mb-2">Frequently Asked Questions</h2>
+        <p class="text-zinc-400 text-sm">Everything you need to know about Navarasam.</p>
+      </div>
+
+      <div class="space-y-4">
+        <details class="glass-card p-6 rounded-2xl group cursor-pointer">
+          <summary class="font-bold text-white flex items-center justify-between text-base list-none">
+            <span>How is Navarasam different from standard emoji keyboards?</span>
+            <span
+              class="material-symbols-outlined text-zinc-400 group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <p class="text-sm text-zinc-400 mt-3 leading-relaxed">
+            Standard emoji keyboards only suggest isolated word replacements. Navarasam analyzes your full sentence,
+            extracts relationships like spatial containment ("in the bag" → 📥 👜), negation ("don't like" → 🚫), and
+            event sequence, translating the complete thought into a coherent narrative sequence.
+          </p>
+        </details>
+
+        <details class="glass-card p-6 rounded-2xl group cursor-pointer">
+          <summary class="font-bold text-white flex items-center justify-between text-base list-none">
+            <span>How does 2-person real-time chatting work?</span>
+            <span
+              class="material-symbols-outlined text-zinc-400 group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <p class="text-sm text-zinc-400 mt-3 leading-relaxed">
+            Click "Start Instant 2-Person Chat" or "Share" inside the app. It creates an isolated room over WebSocket
+            and copies a direct Wi-Fi/LAN link. Send the link to a friend on your network or open it in a second window
+            to chat in pure emojis with sub-millisecond sync!
+          </p>
+        </details>
+
+        <details class="glass-card p-6 rounded-2xl group cursor-pointer">
+          <summary class="font-bold text-white flex items-center justify-between text-base list-none">
+            <span>Are emojis guaranteed to render identically on Android and Windows?</span>
+            <span
+              class="material-symbols-outlined text-zinc-400 group-open:rotate-180 transition-transform">expand_more</span>
+          </summary>
+          <p class="text-sm text-zinc-400 mt-3 leading-relaxed">
+            Yes! Navarasam embeds a validated Apple iOS emoji font (<code
+              class="text-zinc-300">ios_emoji.ttf</code>) containing 1,485 native glyphs. Every device sees identical,
+            crisp Apple emoji glyphs regardless of browser or OS.
+          </p>
+        </details>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="border-t border-white/10 bg-[#07080C] relative z-10 py-12">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#007AFF] to-[#5E5CE6] flex items-center justify-center">
+          <span class="font-emoji text-sm text-white">✨</span>
+        </div>
+        <span class="text-sm font-bold text-white">Navarasam SaaS</span>
+        <span class="text-xs text-zinc-500">• Cognitive Semantic Emoji Platform</span>
+      </div>
+      <div class="text-xs text-zinc-500">
+        © 2026 Navarasam. All rights reserved. Apple emoji font pack compliant.
+      </div>
+      <div class="flex items-center gap-6 text-xs text-zinc-400 font-medium">
+        <a href="/app" class="hover:text-white transition-colors">Launch Chat</a>
+        <a href="#api" class="hover:text-white transition-colors">API Reference</a>
+        <a href="#pricing" class="hover:text-white transition-colors">Pricing</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= INTERACTIVE SCRIPT ================= -->
+  <script>
+    (function () {
+      const input = document.getElementById('sandbox-input');
+      const translateBtn = document.getElementById('sandbox-translate-btn');
+      const emojisOut = document.getElementById('sandbox-emojis');
+      const conceptsOut = document.getElementById('sandbox-concepts');
+      const explanationOut = document.getElementById('sandbox-explanation');
+      const presetPills = document.querySelectorAll('.preset-pill');
+      const instantChatBtn = document.getElementById('hero-instant-chat-btn');
+      const navCreateRoomBtn = document.getElementById('nav-create-room-btn');
+
+      // Preset Pill Clicking
+      presetPills.forEach(pill => {
+        pill.addEventListener('click', () => {
+          const q = pill.getAttribute('data-query');
+          if (q && input) {
+            input.value = q;
+            runTranslation(q);
+          }
+        });
+      });
+
+      async function runTranslation(text) {
+        if (!text || !text.trim()) return;
+        if (translateBtn) {
+          translateBtn.disabled = true;
+          translateBtn.innerHTML = `<span>Thinking...</span>`;
+        }
+
+        try {
+          const res = await fetch('/api/translate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text: text.trim() })
+          });
+          const data = await res.json();
+          if (data && data.emojis) {
+            emojisOut.textContent = data.emojis;
+            explanationOut.textContent = `"${data.explanation || 'Semantic decoding completed.'}"`;
+
+            // Render concepts
+            if (data.concepts && data.concepts.length > 0) {
+              conceptsOut.innerHTML = data.concepts.map(c => `
+                <span class="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs text-zinc-300 font-medium">
+                  <span class="font-emoji mr-1">${c.emoji}</span> ${c.name}
+                </span>
+              `).join('');
+            }
+          }
+        } catch (err) {
+          console.error(err);
+        } finally {
+          if (translateBtn) {
+            translateBtn.disabled = false;
+            translateBtn.innerHTML = `<span>Decode</span><span class="material-symbols-outlined text-[17px]">bolt</span>`;
+          }
+        }
+      }
+
+      if (translateBtn && input) {
+        translateBtn.addEventListener('click', () => runTranslation(input.value));
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') runTranslation(input.value);
+        });
+      }
+
+      // 1-Click Instant Room Generation
+      async function launchNewRoom() {
+        try {
+          const res = await fetch('/api/rooms', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' }
+          });
+          const data = await res.json();
+          if (data.url) {
+            window.location.href = data.url;
+          } else {
+            window.location.href = '/app';
+          }
+        } catch {
+          window.location.href = '/app';
+        }
+      }
+
+      if (instantChatBtn) instantChatBtn.addEventListener('click', launchNewRoom);
+      if (navCreateRoomBtn) navCreateRoomBtn.addEventListener('click', launchNewRoom);
+
+      // Code Snippets Tab Switcher
+      const apiTabs = document.querySelectorAll('.api-tab');
+      const codeBlock = document.getElementById('api-code-block');
+      const snippets = {
+        curl: `curl -X POST http://127.0.0.1:5000/api/translate \\
+  -H "Content-Type: application/json" \\
+  -d '{"text": "bring the beer in the bag"}'
+
+# Response:
+{
+  "emojis": "🍺 📥 👜",
+  "concepts": [
+    {"name": "beer", "emoji": "🍺"},
+    {"name": "inside/in", "emoji": "📥"},
+    {"name": "bag", "emoji": "👜"}
+  ],
+  "explanation": "Semantic relation: beer located inside the bag."
+}`,
+        python: `import requests
+
+response = requests.post(
+    "http://127.0.0.1:5000/api/translate",
+    json={"text": "bring the beer in the bag"}
+)
+data = response.json()
+print("Emojis:", data["emojis"])  # Output: 🍺 📥 👜
+print("Graph:", data["concepts"])`,
+        javascript: `const response = await fetch("http://127.0.0.1:5000/api/translate", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ text: "bring the beer in the bag" })
+});
+const { emojis, concepts } = await response.json();
+console.log(emojis); // 🍺 📥 👜`
+      };
+
+      apiTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          apiTabs.forEach(t => {
+            t.classList.remove('bg-white/10', 'text-white', 'font-semibold');
+            t.classList.add('text-zinc-400');
+          });
+          tab.classList.add('bg-white/10', 'text-white', 'font-semibold');
+          tab.classList.remove('text-zinc-400');
+          const lang = tab.getAttribute('data-lang');
+          if (codeBlock && snippets[lang]) {
+            codeBlock.innerHTML = `<code>${snippets[lang]}</code>`;
+          }
+        });
+      });
+    })();
+  </script>
+
+</body>
+
+</html>

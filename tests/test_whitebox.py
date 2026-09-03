@@ -308,14 +308,22 @@ class TestAppWhitebox:
         return app.test_client()
 
     def test_routes(self, client):
+        # GET / (SaaS Landing Page)
         res = client.get("/")
         assert res.status_code == 200
         assert "Navarasam" in res.text
+        assert "SaaS" in res.text or "Pricing" in res.text
+
+        # GET /app (Chat Room Canvas)
+        res_app = client.get("/app")
+        assert res_app.status_code == 200
+        assert "Navarasam" in res_app.text
+        assert "message-input" in res_app.text
 
         # GET /room/testroom
         res_room = client.get("/room/testroom")
         assert res_room.status_code == 200
-        assert res_room.status_code == 200
+        assert "message-input" in res_room.text
 
         # POST /api/rooms
         res_create = client.post("/api/rooms", json={"room_id": "alpha"})

@@ -1,0 +1,10 @@
+.venv/
+.tmp/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.coverage
+htmlcov/
+.env
+.DS_Store
+Thumbs.db

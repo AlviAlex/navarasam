@@ -1,0 +1,166 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Messages</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        user-select: none;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "SF Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+    }
+    /* Custom scrollbar matching macOS */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.18);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .apple-sidebar-translucent {
+      background-color: #ECEBED;
+    }
+    .apple-chat-bg {
+      background-color: #FFFFFF;
+    }
+    .bubble-incoming {
+      background-color: #E9E9EB;
+      color: #000000;
+      border-radius: 18px;
+    }
+    .bubble-outgoing {
+      background: #007AFF;
+      color: #FFFFFF;
+      border-radius: 18px;
+    }
+    .imessage-input-field {
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+  </style>
+</head>
+<body class="bg-[#E5E5E7] flex items-center justify-center p-0 md:p-6 w-screen h-screen">
+<!-- MacBook Native App Window Frame -->
+<div class="w-full h-full md:h-[94vh] md:max-w-[1240px] bg-white rounded-none md:rounded-xl shadow-2xl flex flex-col overflow-hidden border border-black/15">
+<!-- Unified macOS Desktop Container: Authentic 2-Pane Architecture -->
+<div class="flex-1 flex flex-row h-full overflow-hidden">
+<!-- ================= LEFT PANE: CONVERSATION SIDEBAR ================= -->
+
+<!-- ================= RIGHT PANE: CHAT CANVAS ================= -->
+<main class="flex-1 flex flex-col apple-chat-bg h-full overflow-hidden relative">
+<!-- Native Conversation Header Bar (STRICTLY NO CALLING ICONS) -->
+<header class="px-5 border-b border-black/[0.08] bg-[#FBFBFB]/90 backdrop-blur-md flex items-center select-none shrink-0 z-20 relative justify-center"><div class="flex flex-col items-center justify-center w-full py-4 gap-2"><img alt="Elena Rostova" class="w-12 h-12 rounded-full object-cover shadow-sm ring-1 ring-black/10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkleZAeDina0c3SF99VJ-N-h5CjVkSkqkgCbwAXqQX3OfjmLBQ-PPCjTTaN4qdqz3GR37hngfdKH1BZhM5KfXgwXPLpQvuA7vlR_-hLEjU4I63APp-HnESIDZBI3Q6y8T9c5xwaR6KnZzzTHdMjV2D0nT12nCEW5il_Umr_pGcFltFaYSiEexIgMpSQU6YU_TgN3zXr0yTeECdnc7OYIglvtP38kC3ZgFJHqh2et1shKvPZiqfyiMHnQ"><div class="flex flex-col items-center gap-0.5"><span class="text-[18px] font-bold text-[#1D1D1F] leading-tight">Elena Rostova</span><span class="text-[12px] font-normal text-[#8E8E93]">iMessage</span></div></div></header>
+<!-- Chat Transcript Message Feed -->
+<div class="flex-1 overflow-y-auto p-5 space-y-3.5 bg-white" id="messages-container"><div class="flex justify-center my-3 select-none">
+<span class="text-[11px] font-medium text-[#8E8E93]">Today 10:14 AM</span>
+</div>
+<div class="flex items-end gap-2 max-w-[72%] group">
+<img alt="Elena" class="w-7 h-7 rounded-full object-cover mb-0.5 shrink-0" data-alt="Elena avatar next to message" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwHFBV1Jg28nvy20FHkJVOM8tvYGd-c21Q3xj39DQuUIBlTIvmxqpuD0ZEwZztA1zeLANop7Cy5IJpr7Wm35FWGX0iugxYDow4mnaVRrkL5HUWX1qgErf5aS8BoKSEgIfK5OuCFNEvXFWtsAAYH_ETZGaiDaUskG0I7bmlqwfehBtP93lIIWI5OGSg-QzoelGEHaRWCJShhllwj85C9PJ76DlnbWv1XSSpAMMy1xiHQ8M6ljOb2XrbrA">
+<div class="bubble-incoming px-4 py-2.5 text-[28px] leading-tight select-none">
+👋 👀 💻 ✨
+</div>
+</div>
+<div class="flex flex-col items-end gap-1 ml-auto max-w-[72%]">
+<div class="relative">
+<div class="absolute -top-3 -left-2.5 flex items-center justify-center w-6 h-6 rounded-full bg-white shadow-md border border-black/10 z-10 select-none cursor-default" title="Loved by Elena">
+<span class="text-[12px] leading-none">❤️</span>
+</div>
+<div class="bubble-outgoing px-4 py-2.5 text-[28px] leading-tight select-none">
+🤩 🪄 💯 🔥
+</div>
+</div>
+<span class="text-[10px] font-normal text-[#8E8E93] mr-1 select-none">Delivered</span>
+</div>
+<div class="flex items-end gap-2 max-w-[72%] group">
+<img alt="Elena" class="w-7 h-7 rounded-full object-cover mb-0.5 shrink-0" data-alt="Elena avatar thumbnail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvGbDUYFhD_yx9H-YsQuIdJ4ZZVjXNvyrEqpaEOzcQjVKkeWcy40SpbEoAMltkSzjRkZvnjdeelvA2LwaNg_MybbtgT8cXN18zWC65zKgk8WRaoLN7vuxhTm_zpkJgVA3QaJB-n-JqxWEb8k_R9NnFULERnvojksGrln2KD0B3iB9G3wboAjaCUVqKIccte9E2nO3pWhjZgVkZmWS_Med7eP4dzLWMLH8ePNhlTQd_jehI9Mu5mGHXWQ">
+<div class="bubble-incoming px-4 py-2.5 text-[28px] leading-tight select-none">
+🎨 🔍 🤔 ⚖️ 🚀
+</div>
+</div>
+<div class="flex flex-col items-end gap-1 ml-auto max-w-[72%]">
+<div class="bubble-outgoing px-4 py-2.5 text-[28px] leading-tight select-none">
+🙌 🥳 🏄‍♂️ ⚡️ ✅
+</div>
+<span class="text-[10px] font-normal text-[#8E8E93] mr-1 select-none">Delivered</span>
+</div>
+<div class="flex items-end gap-2 max-w-[70%]">
+<img alt="Elena" class="w-7 h-7 rounded-full object-cover mb-0.5 shrink-0" data-alt="Elena typing avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr6nF-XJNBdYrSnO1hwIFBMnBpRB0MxHOA_2fYNiMtTOD2qVii23fmDie53agXElObxAYhi-ddznFOzYZTEg6t3uWXcYBCVOVFeIGEjHagPgYNojzsLkRRelUhOtaCvERfQb4X_dWqPWOJGE-IN_fBTPJjBqfnpjPz-WlsH0meknapb8S-Nt5WMgJkDY6E8i1PZUFOaZh-xeBfp21dyIaLeSGxhFITLf0_w61chX08cfecHK4pTD6bPQ">
+<div class="bubble-incoming px-3.5 py-2.5 flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-[#8E8E93] animate-bounce"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#8E8E93] animate-bounce [animation-delay:180ms]"></span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#8E8E93] animate-bounce [animation-delay:360ms]"></span>
+</div>
+</div></div>
+<!-- ================= DOCKED MACOS INPUT BAR ================= -->
+<div class="p-3 border-t border-black/[0.08] bg-white shrink-0">
+<form class="relative flex items-center" id="composer-form" onsubmit="return false;">
+<!-- Left App / Plus Button Inside Field or Adjacent -->
+<div class="relative flex-1 flex items-center rounded-full bg-[#F5F5F7] imessage-input-field px-2.5 py-1.5">
+<!-- Apps / Attachment '+' Button -->
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-[#8E8E93] hover:text-[#1D1D1F] hover:bg-black/5 transition-all shrink-0 mr-1" title="iMessage Apps" type="button">
+<span class="material-symbols-outlined text-[19px]">add</span>
+</button>
+<!-- Central Text Input -->
+<input autocomplete="off" class="flex-1 bg-transparent border-none outline-none text-[14px] text-[#1D1D1F] placeholder-[#8E8E93] px-1 py-0.5 focus:ring-0" id="message-input" placeholder="💬 ✨ 🚀 ..." type="text">
+<!-- Audio waveform memo icon -->
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-[#8E8E93] hover:text-[#1D1D1F] transition-colors shrink-0 mr-0.5" title="Audio Message" type="button">
+<span class="material-symbols-outlined text-[18px]">graphic_eq</span>
+</button>
+<!-- Emoji / Stickers button -->
+<button class="w-7 h-7 rounded-full flex items-center justify-center text-[#8E8E93] hover:text-[#1D1D1F] transition-colors shrink-0" title="Emoji and Memoji" type="button">
+<span class="material-symbols-outlined text-[19px]">sentiment_satisfied</span>
+</button>
+</div>
+<!-- Native Circular Blue Send Arrow Button -->
+<button class="w-8 h-8 rounded-full bg-[#007AFF] text-white flex items-center justify-center ml-2 shrink-0 hover:bg-[#0069D9] active:scale-95 transition-all shadow-xs" id="send-btn" title="Send" type="submit">
+<span class="material-symbols-outlined text-[18px]">arrow_upward</span>
+</button>
+</form>
+</div>
+</main>
+</div>
+</div>
+<!-- Interactive JavaScript for sending messages authentically -->
+<script>
+    (function() {
+      const form = document.getElementById('composer-form');
+      const input = document.getElementById('message-input');
+      const container = document.getElementById('messages-container');
+
+      if (!form || !input || !container) return;
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const val = input.value.trim();
+        if (!val) return;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'flex flex-col items-end gap-1 ml-auto max-w-[72%]';
+        
+        const cleanVal = val.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        wrapper.innerHTML = `
+          <div class="bubble-outgoing px-3.5 py-2 text-[14px] leading-snug">
+            ${cleanVal}
+          </div>
+          <span class="text-[10px] font-normal text-[#8E8E93] mr-1 select-none">Delivered</span>
+        `;
+
+        container.appendChild(wrapper);
+        input.value = '';
+        container.scrollTop = container.scrollHeight;
+      });
+    })();
+  </script>
+
+
+</body></html>

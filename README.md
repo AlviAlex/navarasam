@@ -1,4 +1,4 @@
-# Emojify
+# Navarasam
 
 **Say less. Emoji more.** Emojify is a hyper-rational semantic emoji translator featuring a deterministic **Emoji Look-Up Table (LUT)** first-tier engine with **AI Fallback** (Google Gemini API / Ollama) and native **Apple iOS Emoji Font Pack (`ios_emoji.ttf`)** rendering.
 
